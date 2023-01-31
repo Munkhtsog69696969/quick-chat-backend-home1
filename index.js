@@ -8,7 +8,7 @@ const cors=require("cors");
 
 const app=express();
 
-const port=process.env.PORT || 8080;
+const port=process.env.PORT || 6900;
 
 const connect=require("./config/dbConnector");
 
