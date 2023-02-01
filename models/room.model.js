@@ -19,6 +19,10 @@ const roomSchema=new Schema({
     admins:[{type:Schema.Types.ObjectId , ref:"users"}],
 
     users:[{type:Schema.Types.ObjectId , ref:"users"}],
+
+    texts:{
+        type:Array,
+    }
 });
 
 
