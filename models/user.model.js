@@ -18,6 +18,11 @@ const userSchema=new Schema({
 
     rooms:[{type:Schema.Types.ObjectId , ref:"rooms"}],
 
+    avatarImageUrl:{
+        type:String,
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR36tS4TDKq99TbPbFcy5aYTy8mIcVbklzHbg&usqp=CAU"
+    },
+
 });
 
 const User=model("users",userSchema);

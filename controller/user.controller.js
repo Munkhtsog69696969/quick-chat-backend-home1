@@ -1,6 +1,7 @@
 const User=require("../models/user.model");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
+const io = require('socket.io')
 
 const { body, validationResult } = require('express-validator');
 
@@ -17,6 +18,8 @@ exports.createNewUser=async(req,res)=>{
 
     const password=req.body.password;
 
+    const avatarImageUrl=req.body.avatarImageUrl;
+
     const existingUser=await User.findOne({email});
 
     if(existingUser && existingUser!==""){
@@ -27,7 +30,7 @@ exports.createNewUser=async(req,res)=>{
 
             const hash=bcrypt.hashSync(password , salt);
 
-            const newUser=await User.create({username:username , email:email , password:hash});
+            const newUser=await User.create({username:username , email:email , password:hash , avatarImageUrl:avatarImageUrl});
     
             newUser.save();
     

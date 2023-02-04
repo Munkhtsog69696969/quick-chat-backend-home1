@@ -1,5 +1,6 @@
 const Room=require("../models/room.model");
 const randomstring=require("randomstring");
+const io = require('socket.io')
 
 exports.createRoom=async(req,res)=>{
     const name=req.body.name;
