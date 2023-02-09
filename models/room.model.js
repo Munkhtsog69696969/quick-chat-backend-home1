@@ -20,9 +20,6 @@ const roomSchema=new Schema({
 
     users:[{type:Schema.Types.ObjectId , ref:"users"}],
 
-    texts:{
-        type:Array,
-    }
 });
 
 

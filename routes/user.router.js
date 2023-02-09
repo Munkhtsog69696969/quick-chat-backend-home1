@@ -7,8 +7,8 @@ const { body, validationResult } = require('express-validator');
 const {createNewUser}=require("../controller/user.controller");
 const {loginUser}=require("../controller/user.controller");
 const {authMiddleware}=require("../common/middleware/authMiddleware");
-const {pushRoomId}=require("../controller/user.controller");
-const {showRoomId}=require("../controller/user.controller")
+const {findFriends}=require("../controller/user.controller")
+
 
 userRouter
     .post("/signup",
@@ -19,8 +19,6 @@ userRouter
 
     .post("/login",loginUser,authMiddleware)
 
-    .put("/pushRoomId/:id",pushRoomId)
-
-    .get("/showRoomId/:id",showRoomId)
+    .post("/findFriends/:id",findFriends)
 
 module.exports=userRouter;

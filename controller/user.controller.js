@@ -1,9 +1,9 @@
 const User=require("../models/user.model");
 const bcrypt=require("bcrypt");
-const jwt=require("jsonwebtoken");
-const io = require('socket.io')
 
 const { body, validationResult } = require('express-validator');
+
+const { random } = require("lodash");
 
 require("dotenv").config();
 
@@ -22,6 +22,16 @@ exports.createNewUser=async(req,res)=>{
 
     const existingUser=await User.findOne({email});
 
+    let code=random([10],[String]);
+
+    let existingCode=await User.find({usercode:code});
+
+    while(existingCode!=""){
+        code=random(10);
+
+        existingCode=await User.find({usercode:code});
+    }
+
     if(existingUser && existingUser!==""){
         res.send("Email already in use.");
     }else{
@@ -30,7 +40,7 @@ exports.createNewUser=async(req,res)=>{
 
             const hash=bcrypt.hashSync(password , salt);
 
-            const newUser=await User.create({username:username , email:email , password:hash , avatarImageUrl:avatarImageUrl});
+            const newUser=await User.create({username:username , email:email , password:hash , avatarImageUrl:avatarImageUrl , usercode:code});
     
             newUser.save();
     
@@ -79,25 +89,14 @@ exports.loginUser=async(req,res,next)=>{
 }
 
 
-
-exports.pushRoomId=async(req,res)=>{
+exports.findFriends=async(req,res)=>{
     const userId=req.params.id;
-
-    const roomId=req.body.roomId;
 
     const user=await User.findById(userId);
 
-    user.rooms.push(roomId);
+    const friendEmail=req.body.friendEmail;
 
-    user.save();
+    const friend=await User.findOne({email:friendEmail});
 
-    res.send(user);
-}
-
-exports.showRoomId=async(req,res)=>{
-    const userId=req.params.id;
-
-    const user=await User.findById(userId).populate("rooms");
-
-    res.send(user);
+    res.send(friend)
 }

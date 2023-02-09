@@ -18,10 +18,17 @@ const userSchema=new Schema({
 
     rooms:[{type:Schema.Types.ObjectId , ref:"rooms"}],
 
+    usercode:{
+        type:String,
+        required:true,
+    },
+
     avatarImageUrl:{
         type:String,
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR36tS4TDKq99TbPbFcy5aYTy8mIcVbklzHbg&usqp=CAU"
     },
+
+    friends:[{type:Schema.Types.ObjectId , ref:"friends"}],
 
 });
 
