@@ -8,6 +8,7 @@ const {createNewUser}=require("../controller/user.controller");
 const {loginUser}=require("../controller/user.controller");
 const {authMiddleware}=require("../common/middleware/authMiddleware");
 const {findFriends}=require("../controller/user.controller");
+const {findFriendsUsername}=require("../controller/user.controller")
 
 userRouter
     .post("/signup",
@@ -19,5 +20,7 @@ userRouter
     .post("/login",loginUser,authMiddleware)
 
     .post("/findFriends",findFriends)
+
+    .post("/findFriendsUsername",findFriendsUsername)
 
 module.exports=userRouter;

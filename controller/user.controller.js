@@ -105,3 +105,13 @@ exports.findFriends=async(req,res)=>{
 
     res.send(userToken)
 }
+
+exports.findFriendsUsername=async(req,res)=>{
+    const username=req.body.name;
+
+    const user=await User.find({username:username});
+
+    const userToken=tokenGenerator({user});
+
+    res.send(userToken);
+}
