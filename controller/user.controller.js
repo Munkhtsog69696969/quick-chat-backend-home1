@@ -1,9 +1,10 @@
 const User=require("../models/user.model");
+
 const bcrypt=require("bcrypt");
 
 const { body, validationResult } = require('express-validator');
 
-const { random } = require("lodash");
+const randomstring=require("randomstring")
 
 require("dotenv").config();
 
@@ -22,14 +23,20 @@ exports.createNewUser=async(req,res)=>{
 
     const existingUser=await User.findOne({email});
 
-    let code=random([10],[String]);
+
+
+    let code=randomstring.generate(10);
 
     let existingCode=await User.find({usercode:code});
 
-    while(existingCode!=""){
-        code=random(10);
+    while(existingCode && existingCode!==""){
+        code=randomstring.generate(10);
 
         existingCode=await User.find({usercode:code});
+
+        if(existingCode && existingCode==""){
+            break;
+        }
     }
 
     if(existingUser && existingUser!==""){
@@ -90,13 +97,11 @@ exports.loginUser=async(req,res,next)=>{
 
 
 exports.findFriends=async(req,res)=>{
-    const userId=req.params.id;
+    const userCode=req.body.usercode;
 
-    const user=await User.findById(userId);
+    const user=await User.find({usercode:userCode});
 
-    const friendEmail=req.body.friendEmail;
+    const userToken=tokenGenerator({user})
 
-    const friend=await User.findOne({email:friendEmail});
-
-    res.send(friend)
+    res.send(userToken)
 }
