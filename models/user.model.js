@@ -28,7 +28,9 @@ const userSchema=new Schema({
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR36tS4TDKq99TbPbFcy5aYTy8mIcVbklzHbg&usqp=CAU"
     },
 
-    friends:[{type:Schema.Types.ObjectId , ref:"friends"}],
+    incomeFriendRequest:[{type:Schema.Types.ObjectId , ref:"users"}],
+
+    friends:[{type:Schema.Types.ObjectId , ref:"users"}],
 
 });
 

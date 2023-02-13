@@ -103,7 +103,7 @@ exports.findFriends=async(req,res)=>{
 
     const userToken=tokenGenerator({user})
 
-    res.send(userToken)
+    res.send(userToken && userToken)
 }
 
 exports.findFriendsUsername=async(req,res)=>{
@@ -113,5 +113,87 @@ exports.findFriendsUsername=async(req,res)=>{
 
     const userToken=tokenGenerator({user});
 
-    res.send(userToken);
+    res.send(userToken && userToken);
+}
+
+exports.incomeFriendRequest=async(req,res)=>{
+    const friendId=req.params.id;
+
+    const myId=req.body.myId;
+
+    const friend=await User.findById(friendId);
+
+    friend.incomeFriendRequest.push(myId);
+
+    friend.save();
+
+    res.send(friend)
+}
+
+exports.getIncomeFriendRequest=async(req,res)=>{
+    const userId=req.params.id;
+
+    const user=await User.findById(userId).populate("incomeFriendRequest");
+
+    user.save();
+
+    res.send(user && user);
+}
+
+exports.getUserData=async(req,res)=>{
+    const userId=req.params.id;
+
+    const user=await User.findById(userId).populate("friends");
+
+    user.save();
+
+    res.send(user && user);
+}
+
+exports.acceptRequest=async(req,res)=>{
+    const userId=req.params.id;
+
+    const friendId=req.body.friendId;
+
+    const user=await User.findById(userId);
+
+    const friend=await User.findById(friendId);
+
+    friend.friends.push(userId);
+
+    if(user){
+        user.friends.push(friendId);
+
+        user && user.incomeFriendRequest.map((item,i)=>{
+            if(item==friendId){
+                user.incomeFriendRequest.splice(i,1);
+            }
+        })
+    }
+
+    user.save();
+
+    friend.save();
+
+    res.send(user && user)
+}
+
+exports.deleteRequest=async(req,res)=>{
+    const userId=req.params.id;
+
+    const friendId=req.body.friendId;
+
+    const user=await User.findById(userId);
+
+    if(user){
+        user && user.incomeFriendRequest.map((item,i)=>{
+            if(item==friendId){
+                user.incomeFriendRequest.splice(i,1);
+            }
+        })
+    }
+
+    user.save();
+
+    res.send(user && user);
 }
