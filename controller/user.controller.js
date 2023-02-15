@@ -147,7 +147,7 @@ exports.getUserData=async(req,res)=>{
 
     user.save();
 
-    res.send(user && user);
+    res.send(user.friends);
 }
 
 exports.acceptRequest=async(req,res)=>{
