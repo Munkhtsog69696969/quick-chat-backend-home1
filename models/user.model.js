@@ -23,6 +23,11 @@ const userSchema=new Schema({
         required:true,
     },
 
+    usernumber:{
+        type:Number,
+        required:true,
+    },
+
     avatarImageUrl:{
         type:String,
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR36tS4TDKq99TbPbFcy5aYTy8mIcVbklzHbg&usqp=CAU"

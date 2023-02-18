@@ -4,7 +4,11 @@ const bcrypt=require("bcrypt");
 
 const { body, validationResult } = require('express-validator');
 
-const randomstring=require("randomstring")
+const randomstring=require("randomstring")      
+
+const aleaRNGFactory = require("number-generator/lib/aleaRNGFactory");
+
+const { uInt32 } = aleaRNGFactory(10);
 
 require("dotenv").config();
 
@@ -39,6 +43,20 @@ exports.createNewUser=async(req,res)=>{
         }
     }
 
+    let number=uInt32();
+
+    let existingNumber=await User.find({usernumber:number});
+
+    while(existingNumber && existingNumber!==""){
+        number=uInt32();
+
+        existingNumber=await User.find({usernumber:number});
+
+        if(existingNumber && existingNumber==""){
+            break;
+        }
+    }
+
     if(existingUser && existingUser!==""){
         res.send("Email already in use.");
     }else{
@@ -47,7 +65,7 @@ exports.createNewUser=async(req,res)=>{
 
             const hash=bcrypt.hashSync(password , salt);
 
-            const newUser=await User.create({username:username , email:email , password:hash , avatarImageUrl:avatarImageUrl , usercode:code});
+            const newUser=await User.create({username:username , email:email , password:hash , avatarImageUrl:avatarImageUrl , usercode:code , usernumber:number});
     
             newUser.save();
     
@@ -196,4 +214,10 @@ exports.deleteRequest=async(req,res)=>{
     user.save();
 
     res.send(user && user);
+}
+
+
+
+exports.pushRoomId=async(req,res)=>{
+
 }

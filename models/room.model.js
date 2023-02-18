@@ -1,17 +1,12 @@
 const {Schema , Types , model}=require("mongoose");
 
 const roomSchema=new Schema({
-    name:{
+    code:{
         type:String,
         required:true,
     },
 
-    isPrivite:{
-        type:Boolean,
-        required:true,
-    },
-
-    code:{
+    roomId:{
         type:String,
         required:true,
     },
@@ -19,6 +14,10 @@ const roomSchema=new Schema({
     admins:[{type:Schema.Types.ObjectId , ref:"users"}],
 
     users:[{type:Schema.Types.ObjectId , ref:"users"}],
+
+    texts:{
+        type:Array,
+    },
 
 });
 
