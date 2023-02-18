@@ -1,4 +1,5 @@
 const {Schema , Types , model}=require("mongoose");
+const { object } = require("webidl-conversions");
 
 const roomSchema=new Schema({
     code:{
@@ -15,9 +16,9 @@ const roomSchema=new Schema({
 
     users:[{type:Schema.Types.ObjectId , ref:"users"}],
 
-    texts:{
-        type:Array,
-    },
+    texts:[{
+        type:Object,
+    }],
 
 });
 

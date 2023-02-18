@@ -38,7 +38,7 @@ exports.findByRoomId=async(req,res)=>{
 exports.pushTextToRoom=async(req,res)=>{
     const roomId=req.params.id;
 
-    const text=req.body.text;
+    const text=req.body.Text;
 
     const room=await Room.findById(roomId);
 
